@@ -7,11 +7,15 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View, StatusBar} from 'react-native';
 import RootNavigator from "./src/navigation/RootNavigator";
 
 type Props = {};
 export default class App extends Component<Props> {
+  componentDidMount(){
+    StatusBar.setBarStyle("light-content")
+  }
+
   render() {
     return (
       <View style={styles.container}>
