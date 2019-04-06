@@ -7,27 +7,30 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, StatusBar} from 'react-native';
+import {StatusBar} from 'react-native';
 import RootNavigator from "./src/navigation/RootNavigator";
+import {createReduxContainer} from "react-navigation-redux-helpers";
+import {connect, Provider} from 'react-redux';
+import store from "./src/redux/stores/root-store";
 
-type Props = {};
-export default class App extends Component<Props> {
-  componentDidMount(){
-    StatusBar.setBarStyle("light-content")
-  }
+const AppContainer = createReduxContainer(RootNavigator);
+const mapStateToProps = (state) => ({
+	state: state.nav,
+});
+const AppWithNavigationState = connect(mapStateToProps)(AppContainer);
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <RootNavigator/>
-      </View>
-    );
-  }
+class App extends Component {
+	componentDidMount() {
+		StatusBar.setBarStyle("light-content")
+	}
+
+	render() {
+		return (
+			<Provider store={store}>
+				<AppWithNavigationState/>
+			</Provider>
+		);
+	}
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white"
-  }
-});
+export default App;
